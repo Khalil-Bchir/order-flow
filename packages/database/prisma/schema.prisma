@@ -12,8 +12,16 @@ model User {
   name       String
   email      String   @unique
   password   String   @db.Text()
+  role       Role
+  code       String
   create_at  DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
 
   @@index([email])
+}
+
+enum Role {
+  ADMIN
+  USER
+  MODERATOR
 }
