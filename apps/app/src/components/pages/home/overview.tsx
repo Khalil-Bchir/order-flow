@@ -1,6 +1,11 @@
+'use client';
+
+import { AnimatedCard, AnimatedHeader, AnimatedSection } from '@/components/pages/home/modules';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { scrollToSection } from '@/lib/smooth-scroll';
+import { motion } from 'framer-motion';
 import {
   CheckCircle,
   Coffee,
@@ -14,79 +19,87 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function Home() {
+  // Handle anchor links for smooth scrolling on page load
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      setTimeout(() => {
+        scrollToSection(id);
+      }, 100);
+    }
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-background sticky top-0 z-40 border-b">
-        <div className="container flex h-16 items-center justify-between py-4">
-          <div className="flex items-center gap-2">
-            <Printer className="h-6 w-6" />
-            <span className="text-xl font-bold">CylindreImpression</span>
-          </div>
-          <nav className="hidden gap-6 md:flex">
-            <Link
-              href="#services"
-              className="text-sm font-medium underline-offset-4 hover:underline"
-            >
-              Services
-            </Link>
-            <Link
-              href="#industries"
-              className="text-sm font-medium underline-offset-4 hover:underline"
-            >
-              Secteurs
-            </Link>
-            <Link
-              href="#process"
-              className="text-sm font-medium underline-offset-4 hover:underline"
-            >
-              Notre Processus
-            </Link>
-            <Link
-              href="#gallery"
-              className="text-sm font-medium underline-offset-4 hover:underline"
-            >
-              Galerie
-            </Link>
-            <Link
-              href="#testimonials"
-              className="text-sm font-medium underline-offset-4 hover:underline"
-            >
-              Témoignages
-            </Link>
-          </nav>
-          <div>
-            <Button asChild>
-              <Link href="#contact">Demander un Devis</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
-      <main className="flex-1">
+      <AnimatedHeader />
+
+      <main className="flex-1 pt-16">
         {/* Section Hero */}
-        <section className="bg-muted py-12 md:py-24 lg:py-32">
+        <AnimatedSection className="bg-muted py-16 md:py-28 lg:py-36" id="hero">
           <div className="container px-4 md:px-6">
             <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12">
-              <div className="space-y-4">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+              <div className="space-y-6">
+                <motion.h1
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                >
                   Solutions d'Impression Personnalisées pour Vos Produits Cylindriques
-                </h1>
-                <p className="text-muted-foreground md:text-xl">
+                </motion.h1>
+                <motion.p
+                  className="text-muted-foreground md:text-xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.4 }}
+                >
                   Transformez vos gobelets, canettes et contenants en outils de communication
                   puissants. Services d'impression haute qualité adaptés aux entreprises de toutes
                   tailles.
-                </p>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Button size="lg" asChild>
-                    <Link href="#contact">Devis Gratuit</Link>
+                </motion.p>
+                <motion.div
+                  className="flex flex-col gap-3 sm:flex-row"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.6 }}
+                >
+                  <Button size="lg" asChild className="group relative overflow-hidden">
+                    <Link
+                      href="#contact"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection('contact');
+                      }}
+                    >
+                      <span className="relative z-10">Devis Gratuit</span>
+                      <span className="bg-primary-foreground/10 absolute inset-0 translate-y-full transform transition-transform duration-300 group-hover:translate-y-0"></span>
+                    </Link>
                   </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link href="#gallery">Voir Nos Réalisations</Link>
+                  <Button size="lg" variant="outline" asChild className="group">
+                    <Link
+                      href="#gallery"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        scrollToSection('gallery');
+                      }}
+                    >
+                      <span className="group-hover:text-primary transition-colors">
+                        Voir Nos Réalisations
+                      </span>
+                    </Link>
                   </Button>
-                </div>
+                </motion.div>
               </div>
-              <div className="relative h-[400px] overflow-hidden rounded-lg lg:h-[500px]">
+              <motion.div
+                className="relative h-[400px] overflow-hidden rounded-lg lg:h-[500px]"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Image
                   src="/hero.png"
                   alt="Divers gobelets et contenants imprimés"
@@ -94,361 +107,449 @@ export default function Home() {
                   className="object-cover"
                   priority
                 />
-              </div>
+                <div className="from-primary/20 absolute inset-0 bg-gradient-to-tr to-transparent opacity-60"></div>
+              </motion.div>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Section Services */}
-        <section id="services" className="py-12 md:py-24 lg:py-32">
+        <AnimatedSection id="services" className="py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <motion.h2
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   Nos Services d'Impression
-                </h2>
-                <p className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                </motion.h2>
+                <motion.p
+                  className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   Nous offrons des solutions d'impression complètes pour tous types de produits
                   cylindriques
-                </p>
+                </motion.p>
               </div>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <div className="bg-background flex flex-col items-center space-y-2 rounded-lg border p-6">
-                <Coffee className="text-primary mb-4 h-12 w-12" />
+              <AnimatedCard
+                delay={0}
+                className="bg-background flex flex-col items-center space-y-2 rounded-lg border p-6 transition-shadow duration-300 hover:shadow-lg"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                >
+                  <Coffee className="text-primary mb-4 h-12 w-12" />
+                </motion.div>
                 <h3 className="text-xl font-bold">Gobelets à Café</h3>
                 <p className="text-muted-foreground text-center">
                   Gobelets en papier et réutilisables personnalisés pour cafés et coffee shops.
                 </p>
-              </div>
-              <div className="bg-background flex flex-col items-center space-y-2 rounded-lg border p-6">
-                <Package className="text-primary mb-4 h-12 w-12" />
+              </AnimatedCard>
+              <AnimatedCard
+                delay={1}
+                className="bg-background flex flex-col items-center space-y-2 rounded-lg border p-6 transition-shadow duration-300 hover:shadow-lg"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                >
+                  <Package className="text-primary mb-4 h-12 w-12" />
+                </motion.div>
                 <h3 className="text-xl font-bold">Contenants Produits</h3>
                 <p className="text-muted-foreground text-center">
                   Solutions d'emballage personnalisées pour alimentaire, cosmétiques et produits de
                   détail.
                 </p>
-              </div>
-              <div className="bg-background flex flex-col items-center space-y-2 rounded-lg border p-6">
-                <Droplet className="text-primary mb-4 h-12 w-12" />
+              </AnimatedCard>
+              <AnimatedCard
+                delay={2}
+                className="bg-background flex flex-col items-center space-y-2 rounded-lg border p-6 transition-shadow duration-300 hover:shadow-lg"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                >
+                  <Droplet className="text-primary mb-4 h-12 w-12" />
+                </motion.div>
                 <h3 className="text-xl font-bold">Canettes de Boisson</h3>
                 <p className="text-muted-foreground text-center">
                   Impression haute qualité sur canettes aluminium, bouteilles et autres contenants
                   de boisson.
                 </p>
-              </div>
+              </AnimatedCard>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Section Secteurs */}
-        <section id="industries" className="bg-muted py-12 md:py-24 lg:py-32">
+        <AnimatedSection id="industries" className="bg-muted py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <motion.h2
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   Secteurs que Nous Servons
-                </h2>
-                <p className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                </motion.h2>
+                <motion.p
+                  className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   Nos solutions d'impression sont adaptées aux besoins de divers secteurs d'activité
-                </p>
+                </motion.p>
               </div>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="flex flex-col items-center space-y-2 p-4">
-                <div className="bg-primary/10 rounded-full p-4">
-                  <Coffee className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold">Coffee Shops</h3>
-                <p className="text-muted-foreground text-center">
-                  Gobelets personnalisés qui renforcent l'identité de votre café
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 p-4">
-                <div className="bg-primary/10 rounded-full p-4">
-                  <Droplet className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold">Producteurs de Miel</h3>
-                <p className="text-muted-foreground text-center">
-                  Pots de miel et contenants personnalisés
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 p-4">
-                <div className="bg-primary/10 rounded-full p-4">
-                  <ShoppingBag className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold">Marques de Détail</h3>
-                <p className="text-muted-foreground text-center">
-                  Emballages distinctifs pour produits de détail
-                </p>
-              </div>
-              <div className="flex flex-col items-center space-y-2 p-4">
-                <div className="bg-primary/10 rounded-full p-4">
-                  <Package className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold">Alimentaire & Boissons</h3>
-                <p className="text-muted-foreground text-center">
-                  Impression alimentaire pour contenants et emballages
-                </p>
-              </div>
+              {[
+                {
+                  icon: Coffee,
+                  title: 'Coffee Shops',
+                  desc: "Gobelets personnalisés qui renforcent l'identité de votre café",
+                },
+                {
+                  icon: Droplet,
+                  title: 'Producteurs de Miel',
+                  desc: 'Pots de miel et contenants personnalisés',
+                },
+                {
+                  icon: ShoppingBag,
+                  title: 'Marques de Détail',
+                  desc: 'Emballages distinctifs pour produits de détail',
+                },
+                {
+                  icon: Package,
+                  title: 'Alimentaire & Boissons',
+                  desc: 'Impression alimentaire pour contenants et emballages',
+                },
+              ].map((item, index) => (
+                <AnimatedCard
+                  key={index}
+                  delay={index}
+                  className="flex flex-col items-center space-y-2 p-4"
+                >
+                  <motion.div
+                    className="bg-primary/10 rounded-full p-4"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  >
+                    <item.icon className="text-primary h-8 w-8" />
+                  </motion.div>
+                  <h3 className="text-xl font-bold">{item.title}</h3>
+                  <p className="text-muted-foreground text-center">{item.desc}</p>
+                </AnimatedCard>
+              ))}
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Section Avantages */}
-        <section className="py-12 md:py-24 lg:py-32">
+        <AnimatedSection className="py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <motion.h2
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   Pourquoi Nous Choisir
-                </h2>
-                <p className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                </motion.h2>
+                <motion.p
+                  className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   Nous offrons qualité, fiabilité et service exceptionnel pour tous vos besoins
                   d'impression
-                </p>
+                </motion.p>
               </div>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-              <div className="flex items-start space-x-4">
-                <CheckCircle className="text-primary mt-1 h-6 w-6" />
-                <div>
-                  <h3 className="text-xl font-bold">Qualité Premium</h3>
-                  <p className="text-muted-foreground">
-                    Impression haute résolution qui maintient la précision des couleurs et la
-                    durabilité
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <CheckCircle className="text-primary mt-1 h-6 w-6" />
-                <div>
-                  <h3 className="text-xl font-bold">Solutions Sur Mesure</h3>
-                  <p className="text-muted-foreground">
-                    Services d'impression adaptés à vos exigences spécifiques
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <CheckCircle className="text-primary mt-1 h-6 w-6" />
-                <div>
-                  <h3 className="text-xl font-bold">Délais Rapides</h3>
-                  <p className="text-muted-foreground">
-                    Processus de production efficace pour respecter vos échéances
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <CheckCircle className="text-primary mt-1 h-6 w-6" />
-                <div>
-                  <h3 className="text-xl font-bold">Prix Compétitifs</h3>
-                  <p className="text-muted-foreground">
-                    Solutions économiques sans compromis sur la qualité
-                  </p>
-                </div>
-              </div>
+              {[
+                {
+                  title: 'Qualité Premium',
+                  desc: 'Impression haute résolution qui maintient la précision des couleurs et la durabilité',
+                },
+                {
+                  title: 'Solutions Sur Mesure',
+                  desc: "Services d'impression adaptés à vos exigences spécifiques",
+                },
+                {
+                  title: 'Délais Rapides',
+                  desc: 'Processus de production efficace pour respecter vos échéances',
+                },
+                {
+                  title: 'Prix Compétitifs',
+                  desc: 'Solutions économiques sans compromis sur la qualité',
+                },
+              ].map((item, index) => (
+                <AnimatedCard key={index} delay={index} className="flex items-start space-x-4">
+                  <motion.div
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <CheckCircle className="text-primary mt-1 h-6 w-6" />
+                  </motion.div>
+                  <div>
+                    <h3 className="text-xl font-bold">{item.title}</h3>
+                    <p className="text-muted-foreground">{item.desc}</p>
+                  </div>
+                </AnimatedCard>
+              ))}
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Section Processus */}
-        <section id="process" className="bg-muted py-12 md:py-24 lg:py-32">
+        <AnimatedSection id="process" className="bg-muted py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <motion.h2
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   Notre Processus
-                </h2>
-                <p className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                </motion.h2>
+                <motion.p
+                  className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   Un processus simple et efficace de la conception à la livraison
-                </p>
+                </motion.p>
               </div>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
-              <div className="bg-background flex flex-col items-center space-y-4 rounded-lg border p-6">
-                <div className="bg-primary/10 rounded-full p-4">
-                  <Palette className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold">1. Conception</h3>
-                <p className="text-muted-foreground text-center">
-                  Travaillez avec notre équipe de design ou fournissez vos propres créations pour
-                  l'impression
-                </p>
-              </div>
-              <div className="bg-background flex flex-col items-center space-y-4 rounded-lg border p-6">
-                <div className="bg-primary/10 rounded-full p-4">
-                  <Printer className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold">2. Production</h3>
-                <p className="text-muted-foreground text-center">
-                  Impression haute qualité sur vos produits cylindriques avec une technologie
-                  avancée
-                </p>
-              </div>
-              <div className="bg-background flex flex-col items-center space-y-4 rounded-lg border p-6">
-                <div className="bg-primary/10 rounded-full p-4">
-                  <Truck className="text-primary h-8 w-8" />
-                </div>
-                <h3 className="text-xl font-bold">3. Livraison</h3>
-                <p className="text-muted-foreground text-center">
-                  Emballage sécurisé et livraison ponctuelle à votre entreprise
-                </p>
-              </div>
+              {[
+                {
+                  icon: Palette,
+                  title: '1. Conception',
+                  desc: "Travaillez avec notre équipe de design ou fournissez vos propres créations pour l'impression",
+                },
+                {
+                  icon: Printer,
+                  title: '2. Production',
+                  desc: 'Impression haute qualité sur vos produits cylindriques avec une technologie avancée',
+                },
+                {
+                  icon: Truck,
+                  title: '3. Livraison',
+                  desc: 'Emballage sécurisé et livraison ponctuelle à votre entreprise',
+                },
+              ].map((item, index) => (
+                <AnimatedCard
+                  key={index}
+                  delay={index}
+                  className="bg-background flex flex-col items-center space-y-4 rounded-lg border p-6 transition-shadow duration-300 hover:shadow-lg"
+                >
+                  <motion.div
+                    className="bg-primary/10 rounded-full p-4"
+                    whileHover={{ scale: 1.1, rotate: 10 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                  >
+                    <item.icon className="text-primary h-8 w-8" />
+                  </motion.div>
+                  <h3 className="text-xl font-bold">{item.title}</h3>
+                  <p className="text-muted-foreground text-center">{item.desc}</p>
+                </AnimatedCard>
+              ))}
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Section Galerie */}
-        <section id="gallery" className="py-12 md:py-24 lg:py-32">
+        <AnimatedSection id="gallery" className="py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <motion.h2
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   Nos Réalisations
-                </h2>
-                <p className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                </motion.h2>
+                <motion.p
+                  className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   Découvrez notre portfolio de produits cylindriques personnalisés
-                </p>
+                </motion.p>
               </div>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/gall-1.png"
-                  alt="Gobelets à café avec impression personnalisée"
-                  fill
-                  className="object-cover transition-transform hover:scale-105"
-                />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/gall-2.png"
-                  alt="Pots de miel avec étiquettes personnalisées"
-                  fill
-                  className="object-cover transition-transform hover:scale-105"
-                />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/gall-3.png"
-                  alt="Canettes de boisson avec impression personnalisée"
-                  fill
-                  className="object-cover transition-transform hover:scale-105"
-                />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/gall-4.png"
-                  alt="Contenants alimentaires avec marquage personnalisé"
-                  fill
-                  className="object-cover transition-transform hover:scale-105"
-                />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/gall-5.png"
-                  alt="Contenants cosmétiques avec impression personnalisée"
-                  fill
-                  className="object-cover transition-transform hover:scale-105"
-                />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/gall-6.png"
-                  alt="Emballages de détail avec marquage personnalisé"
-                  fill
-                  className="object-cover transition-transform hover:scale-105"
-                />
-              </div>
+              {[
+                { src: '/gall-1.png', alt: 'Gobelets à café avec impression personnalisée' },
+                { src: '/gall-2.png', alt: 'Pots de miel avec étiquettes personnalisées' },
+                { src: '/gall-3.png', alt: 'Canettes de boisson avec impression personnalisée' },
+                { src: '/gall-4.png', alt: 'Contenants alimentaires avec marquage personnalisé' },
+                { src: '/gall-5.png', alt: 'Contenants cosmétiques avec impression personnalisée' },
+                { src: '/gall-6.png', alt: 'Emballages de détail avec marquage personnalisé' },
+              ].map((item, index) => (
+                <AnimatedCard
+                  key={index}
+                  delay={index}
+                  className="group relative aspect-square overflow-hidden rounded-lg"
+                >
+                  <Image
+                    src={item.src || '/placeholder.svg'}
+                    alt={item.alt}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="bg-primary/20 absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileHover={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-background/80 rounded-md p-3 backdrop-blur-sm"
+                    >
+                      <p className="text-sm font-medium">{item.alt}</p>
+                    </motion.div>
+                  </div>
+                </AnimatedCard>
+              ))}
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Section Témoignages */}
-        <section id="testimonials" className="bg-muted py-12 md:py-24 lg:py-32">
+        <AnimatedSection id="testimonials" className="bg-muted py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                <motion.h2
+                  className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
                   Ce que Disent Nos Clients
-                </h2>
-                <p className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                </motion.h2>
+                <motion.p
+                  className="text-muted-foreground max-w-[900px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
                   Découvrez les témoignages d'entreprises qui ont transformé leur image de marque
                   avec nos solutions d'impression
-                </p>
+                </motion.p>
               </div>
             </div>
             <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <div className="bg-background flex flex-col space-y-4 rounded-lg border p-6">
-                <div className="space-y-2">
-                  <p className="italic">
-                    "CylindreImpression a transformé l'image de marque de notre coffee shop. La
-                    qualité d'impression sur nos gobelets est exceptionnelle, et nos clients adorent
-                    les designs uniques."
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="bg-muted h-10 w-10 rounded-full"></div>
-                  <div>
-                    <p className="font-medium">Sarah Dubois</p>
-                    <p className="text-muted-foreground text-sm">Café du Havre</p>
+              {[
+                {
+                  quote:
+                    "CylindreImpression a transformé l'image de marque de notre coffee shop. La qualité d'impression sur nos gobelets est exceptionnelle, et nos clients adorent les designs uniques.",
+                  name: 'Sarah Dubois',
+                  company: 'Café du Havre',
+                },
+                {
+                  quote:
+                    'En tant que producteur de miel, avoir notre marque représentée de manière cohérente sur nos contenants est crucial. CylindreImpression offre une qualité exceptionnelle à chaque fois.',
+                  name: 'Michel Leroy',
+                  company: 'Miel Doré des Alpes',
+                },
+                {
+                  quote:
+                    "L'équipe de CylindreImpression a parfaitement compris notre vision. Leur attention aux détails et leurs délais rapides ont dépassé nos attentes.",
+                  name: 'Émilie Martin',
+                  company: 'Cosmétiques Purs',
+                },
+              ].map((item, index) => (
+                <AnimatedCard
+                  key={index}
+                  delay={index}
+                  className="bg-background flex flex-col space-y-4 rounded-lg border p-6 transition-shadow duration-300 hover:shadow-lg"
+                >
+                  <div className="space-y-2">
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5 }}
+                      className="text-primary font-serif text-4xl"
+                    >
+                      "
+                    </motion.div>
+                    <p className="italic">{item.quote}</p>
                   </div>
-                </div>
-              </div>
-              <div className="bg-background flex flex-col space-y-4 rounded-lg border p-6">
-                <div className="space-y-2">
-                  <p className="italic">
-                    "En tant que producteur de miel, avoir notre marque représentée de manière
-                    cohérente sur nos contenants est crucial. CylindreImpression offre une qualité
-                    exceptionnelle à chaque fois."
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="bg-muted h-10 w-10 rounded-full"></div>
-                  <div>
-                    <p className="font-medium">Michel Leroy</p>
-                    <p className="text-muted-foreground text-sm">Miel Doré des Alpes</p>
+                  <div className="flex items-center space-x-4">
+                    <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-full">
+                      <span className="text-primary font-bold">{item.name.charAt(0)}</span>
+                    </div>
+                    <div>
+                      <p className="font-medium">{item.name}</p>
+                      <p className="text-muted-foreground text-sm">{item.company}</p>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="bg-background flex flex-col space-y-4 rounded-lg border p-6">
-                <div className="space-y-2">
-                  <p className="italic">
-                    "L'équipe de CylindreImpression a parfaitement compris notre vision. Leur
-                    attention aux détails et leurs délais rapides ont dépassé nos attentes."
-                  </p>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="bg-muted h-10 w-10 rounded-full"></div>
-                  <div>
-                    <p className="font-medium">Émilie Martin</p>
-                    <p className="text-muted-foreground text-sm">Cosmétiques Purs</p>
-                  </div>
-                </div>
-              </div>
+                </AnimatedCard>
+              ))}
             </div>
           </div>
-        </section>
+        </AnimatedSection>
 
         {/* Section Contact */}
-        <section id="contact" className="py-12 md:py-24 lg:py-32">
+        <AnimatedSection id="contact" className="py-16 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="grid items-start gap-6 lg:grid-cols-2 lg:gap-12">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="space-y-2">
-                  <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  <motion.h2
+                    className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
                     Contactez-Nous
-                  </h2>
-                  <p className="text-muted-foreground md:text-xl">
+                  </motion.h2>
+                  <motion.p
+                    className="text-muted-foreground md:text-xl"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                  >
                     Prêt à transformer vos produits cylindriques ? Contactez-nous pour un devis
                     gratuit ou pour discuter de votre projet.
-                  </p>
+                  </motion.p>
                 </div>
-                <div className="flex items-center space-x-2">
+                <motion.div
+                  className="flex items-center space-x-2"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
                   <Phone className="text-primary h-5 w-5" />
                   <span>+33 1 23 45 67 89</span>
-                </div>
-                <div className="flex items-center space-x-2">
+                </motion.div>
+                <motion.div
+                  className="flex items-center space-x-2"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -465,9 +566,9 @@ export default function Home() {
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                   </svg>
                   <span>contact@cylindreimpression.fr</span>
-                </div>
+                </motion.div>
               </div>
-              <div className="bg-muted space-y-4 rounded-lg p-6">
+              <AnimatedCard delay={1} className="bg-muted space-y-4 rounded-lg p-6 shadow-lg">
                 <div className="space-y-2">
                   <h3 className="text-2xl font-bold">Demander un Devis</h3>
                   <p className="text-muted-foreground">
@@ -476,7 +577,12 @@ export default function Home() {
                 </div>
                 <form className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
+                    <motion.div
+                      className="space-y-2"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                    >
                       <label
                         htmlFor="company"
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -484,8 +590,13 @@ export default function Home() {
                         Nom de l'Entreprise
                       </label>
                       <Input id="company" placeholder="Nom de votre entreprise" />
-                    </div>
-                    <div className="space-y-2">
+                    </motion.div>
+                    <motion.div
+                      className="space-y-2"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.2 }}
+                    >
                       <label
                         htmlFor="email"
                         className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -493,9 +604,14 @@ export default function Home() {
                         Email
                       </label>
                       <Input id="email" placeholder="Votre adresse email" type="email" />
-                    </div>
+                    </motion.div>
                   </div>
-                  <div className="space-y-2">
+                  <motion.div
+                    className="space-y-2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.3 }}
+                  >
                     <label
                       htmlFor="phone"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -503,8 +619,13 @@ export default function Home() {
                       Téléphone
                     </label>
                     <Input id="phone" placeholder="Votre numéro de téléphone" type="tel" />
-                  </div>
-                  <div className="space-y-2">
+                  </motion.div>
+                  <motion.div
+                    className="space-y-2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.4 }}
+                  >
                     <label
                       htmlFor="product"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -512,8 +633,13 @@ export default function Home() {
                       Type de Produit
                     </label>
                     <Input id="product" placeholder="Gobelets à café, pots de miel, etc." />
-                  </div>
-                  <div className="space-y-2">
+                  </motion.div>
+                  <motion.div
+                    className="space-y-2"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                  >
                     <label
                       htmlFor="message"
                       className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -525,22 +651,34 @@ export default function Home() {
                       placeholder="Parlez-nous de votre projet"
                       className="min-h-[120px]"
                     />
-                  </div>
-                  <Button type="submit" className="w-full">
-                    Envoyer la Demande
-                  </Button>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.6 }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <Button type="submit" className="w-full">
+                      Envoyer la Demande
+                    </Button>
+                  </motion.div>
                 </form>
-              </div>
+              </AnimatedCard>
             </div>
           </div>
-        </section>
+        </AnimatedSection>
       </main>
       <footer className="border-t py-6 md:py-8">
         <div className="container flex flex-col gap-4 px-4 md:flex-row md:items-center md:justify-between md:px-6">
-          <div className="flex items-center gap-2">
+          <motion.div
+            className="flex items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <Printer className="h-5 w-5" />
             <span className="text-lg font-bold">CylindreImpression</span>
-          </div>
+          </motion.div>
           <div className="flex flex-col gap-4 text-sm md:flex-row md:gap-6">
             <Link href="#" className="underline-offset-4 hover:underline">
               Politique de Confidentialité

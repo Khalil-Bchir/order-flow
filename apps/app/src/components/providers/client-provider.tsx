@@ -22,7 +22,7 @@ const ClientProvider = ({ children }: { children: React.ReactNode }) => {
         <AuthProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >

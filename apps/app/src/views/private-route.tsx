@@ -9,18 +9,18 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = sessionStorage.getItem('access_token');
-      if (!token) {
-        router.push('/login');
-      }
-    }
-  }, [isAuthenticated, router]);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     const token = sessionStorage.getItem('access_token');
+  //     if (!token) {
+  //       router.push('/login');
+  //     }
+  //   }
+  // }, [isAuthenticated, router]);
 
-  if (!isAuthenticated) {
-    return null;
-  }
+  // if (!isAuthenticated) {
+  //   return null;
+  // }
 
   return <SideBar>{children}</SideBar>;
 };

@@ -7,21 +7,10 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import {
-  Activity,
-  Blocks,
-  BookOpen,
-  Code,
-  Database,
-  GitBranch,
-  Settings2,
-  Shield,
-  Wallet,
-} from 'lucide-react';
+import { Activity, Settings2, Shield, ShoppingCart, Wallet } from 'lucide-react';
 import type * as React from 'react';
 
 import { NavMain } from './nav-main';
-import { NavProjects } from './nav-project';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
 
@@ -30,60 +19,85 @@ const networkId = '1';
 const data = {
   navMain: [
     {
-      title: 'Dashboard',
+      title: 'Tableau de Bord',
       url: '/',
       icon: Activity,
       isActive: true,
       items: [
         {
-          title: 'Overview',
+          title: 'Aperçu',
           url: '/',
           disabled: false,
         },
         {
-          title: 'Analytics',
+          title: 'Analytiques',
           url: '#',
           disabled: true, // Future feature
         },
       ],
     },
     {
-      title: 'Networks',
+      title: 'Commandes',
       url: '#',
-      icon: Database,
+      icon: ShoppingCart,
       isActive: true,
       items: [
         {
-          title: 'Manage Networks',
-          url: `/network`,
+          title: 'Passer Commande',
+          url: '/create-order',
           disabled: false,
         },
         {
-          title: 'Network Health',
-          url: '#',
-          disabled: true, // Future feature
+          title: 'Mes Commandes',
+          url: '/orders',
+          disabled: false,
+        },
+        {
+          title: 'Suivi Commandes',
+          url: '/order-tracking',
+          disabled: false,
         },
       ],
     },
     {
-      title: 'Smart Contracts',
+      title: 'Administration',
       url: '#',
-      icon: Code,
+      icon: Shield,
       items: [
         {
-          title: 'Deployed Contracts',
-          url: '#',
+          title: 'Gestion Commandes',
+          url: '/admin/orders',
+          disabled: false,
+        },
+        {
+          title: 'Gestion Utilisateurs',
+          url: '/admin/users',
+          disabled: false,
+        },
+        {
+          title: 'Rapports',
+          url: '/admin/reports',
           disabled: true, // Future feature
         },
       ],
     },
     {
-      title: 'Settings',
+      title: 'Paramètres',
       url: '#',
       icon: Settings2,
       items: [
         {
-          title: 'General Settings',
+          title: 'Profil',
+          url: '/profile',
+          disabled: false,
+        },
+        {
+          title: 'Notifications',
+          url: '/notifications',
+          disabled: false,
+        },
+        {
+          title: 'Paramètres Généraux',
           url: '#',
           disabled: true, // Future feature
         },
@@ -92,7 +106,7 @@ const data = {
   ],
   projects: [
     {
-      name: 'Demo Project',
+      name: 'Projet Demo',
       url: '#',
       icon: Wallet,
     },
