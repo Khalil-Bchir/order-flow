@@ -1,10 +1,10 @@
-import { AdminOrdersPage } from '@/components/pages/admin/orders/admin-orders';
-import ProtectedRoute from '@/views/private-route';
+import OrdersOverview from '@/components/pages/orders/overview';
+import AdminView from '@/views/admin-view';
 
-export default function AdminOrders() {
+export default function AdminOrdersPage() {
   return (
-    <ProtectedRoute>
-      <AdminOrdersPage />
-    </ProtectedRoute>
+    <AdminView>
+      <OrdersOverview />
+    </AdminView>
   );
 }

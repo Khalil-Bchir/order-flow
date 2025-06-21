@@ -79,22 +79,25 @@ export default function AnimatedHeader() {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
             >
               <Button asChild>
-                <Link href="#contact" onClick={(e) => handleNavClick(e, '#contact')}>
-                  Demander un Devis
+                <Link
+                  href="/client/create-order"
+                  onClick={(e) => router.push('/client/create-order')}
+                >
+                  Passer une Commande
                 </Link>
               </Button>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
             >
               <Button asChild variant="outline">
-                <Link href="/create-order" onClick={(e) => router.push('/create-order')}>
-                  Passer une Commande
+                <Link href="/auth/login" onClick={(e) => router.push('/auth/login')}>
+                  Se Connecter
                 </Link>
               </Button>
             </motion.div>

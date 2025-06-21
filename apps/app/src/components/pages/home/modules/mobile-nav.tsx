@@ -125,16 +125,20 @@ export default function MobileNav() {
                   }}
                   className="mt-8 flex w-full max-w-xs flex-col gap-4"
                 >
-                  <Button size="lg" className="w-full" onClick={() => handleNavClick('#contact')}>
-                    Demander un Devis
-                  </Button>
                   <Button
                     size="lg"
-                    variant="outline"
                     className="w-full"
-                    onClick={() => router.push('/create-order')}
+                    onClick={() => router.push('/client/create-order')}
                   >
                     Passer une Commande
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full"
+                    onClick={() => router.push('/auth/login')}
+                  >
+                    Se Connecter
                   </Button>
                 </motion.div>
               </motion.nav>

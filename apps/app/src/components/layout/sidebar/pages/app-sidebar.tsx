@@ -7,121 +7,106 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { Activity, Settings2, Shield, ShoppingCart, Wallet } from 'lucide-react';
+import { Activity, Printer, Settings2, Shield, ShoppingCart } from 'lucide-react';
 import type * as React from 'react';
 
 import { NavMain } from './nav-main';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
 
-const networkId = '1';
-
 const data = {
   navMain: [
     {
-      title: 'Tableau de Bord',
-      url: '/',
+      title: 'Tableau de bord',
+      url: '/admin',
       icon: Activity,
       isActive: true,
       items: [
         {
-          title: 'Aperçu',
-          url: '/',
+          title: 'Vue générale',
+          url: '/admin',
           disabled: false,
         },
         {
-          title: 'Analytiques',
+          title: 'Statistiques',
           url: '#',
-          disabled: true, // Future feature
+          disabled: true, // à venir
         },
       ],
     },
     {
-      title: 'Commandes',
-      url: '#',
+      title: 'Gestion des commandes',
+      url: '/admin/commandes',
       icon: ShoppingCart,
       isActive: true,
       items: [
         {
-          title: 'Passer Commande',
-          url: '/create-order',
+          title: 'Toutes les commandes',
+          url: '/admin/commandes',
           disabled: false,
         },
         {
-          title: 'Mes Commandes',
-          url: '/orders',
+          title: 'Commandes en attente',
+          url: '/admin/commandes?statut=en-attente',
           disabled: false,
         },
         {
-          title: 'Suivi Commandes',
-          url: '/order-tracking',
+          title: 'Commandes terminées',
+          url: '/admin/commandes?statut=terminee',
           disabled: false,
         },
       ],
     },
     {
-      title: 'Administration',
-      url: '#',
+      title: 'Utilisateurs',
+      url: '/admin/utilisateurs',
       icon: Shield,
+      isActive: true,
       items: [
         {
-          title: 'Gestion Commandes',
-          url: '/admin/orders',
+          title: 'Liste des utilisateurs',
+          url: '/admin/utilisateurs',
           disabled: false,
         },
         {
-          title: 'Gestion Utilisateurs',
-          url: '/admin/users',
+          title: 'Ajouter un utilisateur',
+          url: '/admin/utilisateurs/nouveau',
           disabled: false,
-        },
-        {
-          title: 'Rapports',
-          url: '/admin/reports',
-          disabled: true, // Future feature
         },
       ],
     },
     {
       title: 'Paramètres',
-      url: '#',
+      url: '/admin/parametres',
       icon: Settings2,
+      isActive: true,
       items: [
         {
-          title: 'Profil',
-          url: '/profile',
+          title: 'Profil administrateur',
+          url: '/admin/profil',
           disabled: false,
         },
         {
           title: 'Notifications',
-          url: '/notifications',
+          url: '/admin/notifications',
           disabled: false,
         },
-        {
-          title: 'Paramètres Généraux',
-          url: '#',
-          disabled: true, // Future feature
-        },
       ],
-    },
-  ],
-  projects: [
-    {
-      name: 'Projet Demo',
-      url: '#',
-      icon: Wallet,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" variant="floating" {...props}>
       <SidebarHeader>
-        <TeamSwitcher />
+        <div className="m-4 flex items-center gap-2">
+          <Printer className="text-primary h-6 w-6" />
+          <span className="text-md font-bold">CylindreImpression</span>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

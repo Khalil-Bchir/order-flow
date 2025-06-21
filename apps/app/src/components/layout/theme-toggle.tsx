@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { Button } from '../ui/button';
+
 export function ThemeToggle() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
@@ -29,11 +31,7 @@ export function ThemeToggle() {
   };
 
   return (
-    <button
-      onClick={toggleTheme}
-      className="hover:bg-secondary rounded-full p-2 transition-colors"
-      aria-label="Toggle theme"
-    >
+    <Button onClick={toggleTheme} aria-label="Toggle theme" variant={'ghost'}>
       {theme === 'light' ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -66,6 +64,6 @@ export function ThemeToggle() {
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       )}
-    </button>
+    </Button>
   );
 }

@@ -16,15 +16,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { useAppDispatch } from '@/services/hooks';
-import { logout } from '@/services/v1/authSlice';
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const dispatch = useAppDispatch();
   const router = useRouter();
 
   // State to store the user data
@@ -43,10 +40,12 @@ export function NavUser() {
   }, []);
 
   const handleLogout = () => {
-    dispatch(logout());
+    // Clear session data
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('user');
-    router.push('/login'); // Redirect to login page after logout
+
+    // Redirect to login page
+    router.push('/login');
   };
 
   return (
@@ -60,7 +59,9 @@ export function NavUser() {
             >
               <Avatar className="h-8 w-8 rounded-lg bg-white">
                 <AvatarImage src={user?.avatar || '/avatars/1.svg'} alt={user?.name || 'User'} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">
+                  {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user?.name || 'Loading...'}</span>
@@ -79,7 +80,9 @@ export function NavUser() {
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg bg-white">
                   <AvatarImage src={user?.avatar || '/avatars/1.svg'} alt={user?.name || 'User'} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarFallback className="rounded-lg">
+                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user?.name || 'Loading...'}</span>

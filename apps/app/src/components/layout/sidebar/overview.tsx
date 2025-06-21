@@ -1,5 +1,6 @@
 'use client';
 
+import { ThemeToggle } from '@/components/layout/theme-toggle';
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { ThemeProvider } from 'next-themes';
@@ -7,7 +8,6 @@ import type React from 'react';
 
 // Added import for React
 import { AppSidebar } from './pages/app-sidebar';
-import { ThemeToggle } from './pages/theme-toggle';
 
 interface SidebarProps {
   children: React.ReactNode;
